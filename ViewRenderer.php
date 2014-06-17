@@ -77,6 +77,8 @@ class ViewRenderer extends BaseViewRenderer
      */
     public $twig;
 
+    public $namespaces = [];
+
     public function init()
     {
         $this->twig = new \Twig_Environment(null, array_merge([
@@ -153,8 +155,15 @@ class ViewRenderer extends BaseViewRenderer
      */
     public function render($view, $file, $params)
     {
+        $loader = new Filesystem;
+
+        foreach ($this->namespaces as $dir => $namespace) {
+            if ($path = \Yii::getAlias($dir, false)) {
+                $loader->addPath($path, $namespace);
+            }
+        }
         $this->twig->addGlobal('this', $view);
-        $this->twig->setLoader(new TwigSimpleFileLoader(dirname($file)));
+        $this->twig->setLoader($loader);
 
         return $this->twig->render(pathinfo($file, PATHINFO_BASENAME), $params);
     }
