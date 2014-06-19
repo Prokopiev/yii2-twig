@@ -203,7 +203,7 @@ class ViewRenderer extends BaseViewRenderer
      */
     public function render($view, $file, $params)
     {
-        $loader = new Filesystem;
+        $loader = new Filesystem(dirname($file));
 
         foreach ($this->namespaces as $dir => $namespace) {
             if ($path = \Yii::getAlias($dir, false)) {
@@ -212,7 +212,6 @@ class ViewRenderer extends BaseViewRenderer
         }
         $this->twig->addGlobal('this', $view);
         $this->twig->setLoader($loader);
-
         return $this->twig->render(pathinfo($file, PATHINFO_BASENAME), $params);
     }
 
