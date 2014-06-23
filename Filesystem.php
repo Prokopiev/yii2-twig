@@ -29,6 +29,11 @@ class Filesystem extends \Twig_Loader_Filesystem
         return parent::getSource($name);
     }
 
+    public function getCacheKey($name)
+    {
+        return $this->getFilePath($name);
+    }
+
     protected function getFilePath($name)
     {
         return $this->_dir . '/' . $name;
