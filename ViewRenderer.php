@@ -146,7 +146,8 @@ class ViewRenderer extends BaseViewRenderer
                 $namespaces = array($namespaces);
             }
             foreach($namespaces as $name) {
-                $class = end(explode(':', $name));
+                $data = explode(':', $name);
+                $class = end($data);
                 $this->phpNamespaces[ $class ] = '\\'.str_replace(':','\\',$name);
             }
             return null;
